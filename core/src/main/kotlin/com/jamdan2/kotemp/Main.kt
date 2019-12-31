@@ -1,47 +1,10 @@
 package com.jamdan2.kotemp
 
-import kotemp.routing.routing
-import kotemp.templates.template
 import kotemp.utils.createHtmlFile
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.dom.document
 import kotlinx.html.dom.serialize
-
-val default = template {
-    html {
-        head {
-            title = "Aidan's Website"
-            lang = "en"
-        }
-        body {
-            +"This is my template."
-            +"Heck yes you fucker fuck this whatever"
-            it()
-        }
-    }
-}
-
-fun main() = kotemp {
-    settings {
-        port = 9999
-        watch = "./src"
-        development = false
-    }
-    routing {
-        html("/", default) {
-            p {
-                +"Hello world"
-            }
-        }
-        html("/about", default) {
-            p {
-                +"Something about hello world"
-                +"Hello"
-            }
-        }
-    }
-}
 
 class KotempConfig {
     var settingsConfig = SettingsConfig()
