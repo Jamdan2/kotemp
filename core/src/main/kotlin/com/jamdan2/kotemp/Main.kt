@@ -5,6 +5,7 @@ import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.dom.document
 import kotlinx.html.dom.serialize
+import java.io.File
 
 class KotempConfig {
     var settingsConfig = SettingsConfig()
@@ -44,11 +45,18 @@ fun kotemp(builder: KotempConfig.() -> Unit) {
     val kotemp = KotempConfig().apply(builder).finalize()
     val settings = kotemp.settings
 
+    // Create root folder if it doesn't exist
+    val rootFolder = File(settings.rootFolder)
+    if (!rootFolder.exists()) {
+        rootFolder.mkdirs()
+    }
+
+    // Populate root folder with html files
     kotemp.routes.forEach {
         val content = document { append(it.value) }.serialize()
         if (settings.production) {
             val file = createHtmlFile(settings.rootFolder, it.key)
-            if (!file.exists()) file.mkdirs()
+            if (!file.exists()) file.createNewFile()
             file.writeText(content)
         }
     }
